@@ -1,20 +1,34 @@
 package main
 
-import "fmt"
-import "math/cmplx"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
 
 func main() {
-	var reala, realb, realc float64
-	fmt.Scan(&reala, &realb, &realc)
-	a := complex(reala, 0) //переводит в complex(128)
-	b := complex(realb, 0) //0 значит мнимая часть = 0
-	c := complex(realc, 0)
-	d := (b * b) - 4*a*c
-	if d == 0 {
-		fmt.Println((-1 * b) / (2 * a))
-	} else {
-		fmt.Println(((-1 * b) - (cmplx.Sqrt(d))) / (2 * a))
-		fmt.Println(((-1 * b) + (cmplx.Sqrt(d))) / (2 * a))
-	}
 
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	viragenie := strings.Split(input, " ")
+
+	valfloat1, _ := strconv.ParseFloat(viragenie[0], 64)
+	valfloat2, _ := strconv.ParseFloat(viragenie[1], 64)
+	viragenie[len(viragenie)-1] = viragenie[len(viragenie)-1][:1]
+	for i := 2; i < len(viragenie); {
+		//valfloat2, _ := strconv.ParseFloat(viragenie[i], 64)
+		var oper = map[string]func() float64{
+			"+": func() float64 { return valfloat1 + valfloat2 },
+			"-": func() float64 { return valfloat1 - valfloat2 },
+			"*": func() float64 { return valfloat1 * valfloat2 },
+			"/": func() float64 { return valfloat1 / valfloat2 },
+		}
+		valfloat1 = oper[viragenie[i]]()
+		var check = map[bool]func(){true: func() { i++ }, false: func() { fmt.Println(valfloat1); os.Exit(0) }}
+		check[i < len(viragenie)-1]()
+		valfloat2, _ = strconv.ParseFloat(viragenie[i], 64)
+		check[i < len(viragenie)-1]()
+	}
 }

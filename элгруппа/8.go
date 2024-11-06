@@ -2,25 +2,24 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"math"
+	"strconv"
 )
 
 func main() {
-	var n1, k1, n2, k2, n3, k3 float64
-	fmt.Scan(&n1, &k1)
-	fmt.Scan(&n2, &k2)
-	fmt.Scan(&n3, &k3)
-	if k1 < n1 || k2 < n2 || k3 < n3 {
-		fmt.Println("недопустимый отрезок")
-		os.Exit(0)
+	var n, k float64
+	fmt.Scan(&n, &k)
+	var intn int64 = int64(n / 1)
+	if float64(intn) < n {
+		intn++
 	}
-	if k1 >= n1 && k1 >= n2 && k1 >= n3 {
-		if k2 >= n1 && k2 >= n2 && k2 >= n3 {
-			if k3 >= n1 && k3 >= n2 && k3 >= n3 {
-				fmt.Println("есть область пересечения 3-х отрезков")
-				os.Exit(0)
-			}
+	for i := intn; i <= int64(k); i++ {
+		sm := 0
+		for _, val := range strconv.Itoa(int(i)) {
+			sm += int(math.Pow(float64(val-'0'), float64(len(strconv.Itoa(int(i))))))
+		}
+		if int64(sm) == i {
+			fmt.Println(i)
 		}
 	}
-	fmt.Println("нет области пересечения 3-х отрезков")
 }

@@ -2,24 +2,23 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"os"
 )
 
 func main() {
-	var n, k float64
-	fmt.Scan(&n, &k)
-	f := 0
-	for i := int(n / 1); i <= int(k); i++ {
-		if float64(i) > n {
-			f = 0
-			for j := 2; j <= i/2; j++ {
-				if i%j == 0 {
-					f = 1
-					break
-				}
-			}
-			if f == 0 {
-				fmt.Println(i)
-			}
+	ch := rand.Intn(101)
+	var n int
+	for i := 0; i < 10; i++ {
+		fmt.Scan(&n)
+		if n > ch {
+			println("больше")
+		} else if n < ch {
+			println("меньше")
+		} else {
+			println("ты угадал")
+			os.Exit(0)
 		}
 	}
+	println("не угадал")
 }

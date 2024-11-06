@@ -2,32 +2,70 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"os"
+	"strconv"
 )
 
 func main() {
-	var s string //длина 10
-	fmt.Scan(&s)
-	var pds string //длина 3
-	fmt.Scan(&pds)
-	var bb = map[bool]int{false: 0, true: 1}
-	i := 2
-	ans1 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans2 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans3 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans4 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans5 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans6 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans7 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans8 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	ans9 := bb[s[i-2] == pds[0] && s[i-1] == pds[1] && s[i] == pds[2]]
-	i += 1
-	fmt.Println(-1 + int(bb[ans1 == 1])*(1) + bb[ans2 == 1]*(2) + bb[ans3 == 1]*(3) + bb[ans4 == 1]*(4) + bb[ans5 == 1]*(5) + bb[ans6 == 1]*(6) + bb[ans7 == 1]*(7) + bb[ans8 == 1]*(8) + bb[ans9 == 1]*(9))
+	var as, op, bs string
+	var a, b float64
+	var err error
+
+	fmt.Scan(&as, &op, &bs)
+	if as == "pi" {
+		a = float64(math.Pi)
+	} else if as == "e" {
+		a = float64(math.E)
+	} else {
+		a, err = strconv.ParseFloat(as, 64)
+		if err != nil {
+			fmt.Println("недопустимое число")
+			os.Exit(-1)
+		}
+	}
+
+	if bs == "pi" {
+		b = float64(math.Pi)
+	} else if bs == "e" {
+		b = float64(math.E)
+	} else {
+		b, err = strconv.ParseFloat(bs, 64)
+		if err != nil {
+			fmt.Println("недопустимое число")
+			os.Exit(-1)
+		}
+	}
+
+	if op == "+" {
+		fmt.Println(a + b)
+	} else if op == "-" {
+		fmt.Println(a - b)
+	} else if op == "*" {
+		fmt.Println(a * b)
+	} else if op == "/" {
+		if b == 0 {
+			fmt.Println("на 0 делить нельзя!")
+		} else {
+			fmt.Println(a / b)
+		}
+	} else if op == "^" {
+		fmt.Println(math.Pow(a, b))
+	} else if op == "%" {
+		if b == 0 {
+			fmt.Println("на 0 делить нельзя!")
+		} else {
+			if math.Mod(a, b) < 0 {
+				if b < 0 {
+					fmt.Println(math.Mod(a, b) - b)
+				} else {
+					fmt.Println(math.Mod(a, b) + b)
+				}
+			} else {
+				fmt.Println(math.Mod(a, b))
+			}
+		}
+	} else {
+		fmt.Println("недопустимая операция")
+	}
 }

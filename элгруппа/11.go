@@ -2,22 +2,25 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func main() {
-	var n int64
-	fmt.Scan(&n)
-	var ch1 int64 = 1
-	var ch2 int64 = 2
-	if n >= ch1 {
-		fmt.Println(ch1)
-	}
-	if n >= ch2 {
-		fmt.Println(ch2)
-	}
-	for ch1+ch2 <= n {
-		ch1, ch2 = ch2, ch1
-		ch2 = ch1 + ch2
-		fmt.Println(ch2)
+	var n, k float64
+	fmt.Scan(&n, &k)
+	f := 0
+	for i := int64(n / 1); i <= int64(k); i++ {
+		if float64(i) > n {
+			f = 0
+			for j := int64(2); j <= int64(math.Sqrt(float64(i))); j++ {
+				if i%j == 0 {
+					f = 1
+					break
+				}
+			}
+			if f == 0 {
+				fmt.Println(i)
+			}
+		}
 	}
 }

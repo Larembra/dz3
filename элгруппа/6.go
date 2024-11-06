@@ -1,71 +1,38 @@
 package main
 
-import (
-	"fmt"
-	"math"
-	"os"
-	"strconv"
-)
+import "fmt"
 
+var mem = []int64{1, 1} //чтобы менять её как глобальную
+
+func fib(n int64) int64 {
+	if n == 0 || n == 1 {
+		return 1
+	} else {
+		if n-2 >= int64(len(mem)) {
+			_ = fib(n - 2) //просто выполнится и я смогу использовать схраненные значения для m
+		}
+		if n-1 >= int64(len(mem)) {
+			_ = fib(n - 1)
+		}
+		var m = mem[n-2] + mem[n-1]
+		if mem[len(mem)-1] < m {
+			mem = append(mem, m)
+		}
+		return m
+	}
+}
 func main() {
-	var as, op, bs string
-	var a, b float64
-	var err error
-
-	fmt.Scan(&as, &op, &bs)
-	if as == "pi" {
-		a = float64(math.Pi)
-	} else if as == "e" {
-		a = float64(math.E)
-	} else {
-		a, err = strconv.ParseFloat(as, 64)
-		if err != nil {
-			fmt.Println("недопустимое число")
-			os.Exit(-1)
-		}
+	var n int64
+	fmt.Scan(&n)
+	fmt.Println("рекурсия:")
+	_ = fib(n - 1)
+	fmt.Println(mem)
+	fmt.Println("динамика")
+	var mem1 = []int64{1, 1}
+	var i int64 = 2
+	for i < n {
+		mem1 = append(mem1, mem1[len(mem1)-1]+mem1[len(mem1)-2])
+		i++
 	}
-
-	if bs == "pi" {
-		b = float64(math.Pi)
-	} else if bs == "e" {
-		b = float64(math.E)
-	} else {
-		b, err = strconv.ParseFloat(bs, 64)
-		if err != nil {
-			fmt.Println("недопустимое число")
-			os.Exit(-1)
-		}
-	}
-
-	if op == "+" {
-		fmt.Println(a + b)
-	} else if op == "-" {
-		fmt.Println(a - b)
-	} else if op == "*" {
-		fmt.Println(a * b)
-	} else if op == "/" {
-		if b == 0 {
-			fmt.Println("на 0 делить нельзя!")
-		} else {
-			fmt.Println(a / b)
-		}
-	} else if op == "^" {
-		fmt.Println(math.Pow(a, b))
-	} else if op == "%" {
-		if b == 0 {
-			fmt.Println("на 0 делить нельзя!")
-		} else {
-			if math.Mod(a, b) < 0 {
-				if b < 0 {
-					fmt.Println(math.Mod(a, b) - b)
-				} else {
-					fmt.Println(math.Mod(a, b) + b)
-				}
-			} else {
-				fmt.Println(math.Mod(a, b))
-			}
-		}
-	} else {
-		fmt.Println("недопустимая операция")
-	}
+	fmt.Println(mem1)
 }
